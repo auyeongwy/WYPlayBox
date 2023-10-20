@@ -1,0 +1,51 @@
+WYPlayBox is a library that provides event simulation to any application.
+
+The best explanation for how it works can be described in the following example source code (Which could be out-of-date. Please refer to WYPB_ code distributed with this software.)
+
+
+/* Your application's player class */
+class YourPlayer: public WYPB_Player
+{
+ /* Your implementation of what a player or actor does. */
+};
+
+
+/* Your application's event class */
+class YourEvent: public WYPB_Event
+{
+ /* Your implementation of what an event does. */
+};
+
+
+try {
+        WYPB_PlayerMgr player_mgr_obj;
+        WYPB_EventMgr event_mgr_obj;
+
+        /* Initialise the players/actors in the simulation. */
+        WYPB_Player* player_obj1 = new YourPlayer();
+        WYPB_Player* player_obj2 = new YourPlayer();
+        WYPB_Player* player_obj3 = new YourPlayer();
+
+        /* Add the player/actors to the manager. The manager will handle deallocation of the players so we expect a pointer. */
+        player_mgr_obj.add_player(player_obj1);
+        player_mgr_obj.add_player(player_obj2);
+        player_mgr_obj.add_player(player_obj3);
+
+        /* Create some events and add them to the manager. The manager will handle deallocation of the events so we expect a pointer. */
+        event_mgr_obj.add_event(new YourEvent());
+        event_mgr_obj.add_event(new YourEvent());
+        event_mgr_obj.add_event(new YourEvent());
+
+        /* Process the events - these are sent to all YourPlayer objects. 
+        If new events in this process, these can be added to the event_mgr_obj via a call to add_event(). These will be processed in the next call to process_all_events()
+        */
+        event_mgr_obj.process_all_events();
+
+        /* Maybe more new events are created. */
+        event_mgr_obj.add_event(new YourEvent());
+
+        /* Process the next batch of events. */
+        event_mgr_obj.process_all_events();
+} catch (int e) {
+    /* Handles exception code. */
+}

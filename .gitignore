@@ -1,0 +1,5 @@
+docs/html
+build/*.o
+build/*.a
+build/*.lib
+build/WYPlayBoxDemo
